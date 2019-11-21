@@ -7,6 +7,7 @@ import re
 import os
 import pandas as pd
 
+# define list of words and phrases to take out before writing to spreadsheet
 unwanted_words = [
     "javascript",
     "google",
@@ -32,7 +33,7 @@ def get_sentences(filename):
     sentence_list = []
 
     with open(filename) as fp:
-        for line in fp:
+        for line in fp: # iterates through file by line
             processed_line = line.strip('#$%&()*+-/:;""''<=>@[\]^_`{|}~')
             i=0
             j=0
@@ -51,12 +52,14 @@ def get_sentences(filename):
 
 
 def make_spreadsheet(directory, label):
-    """ Takes in a directory and a label (of either 1 or 0 now) and makes
+    """
+    Takes in a directory and a label (of either 1 or 0 now) and makes
     a spreadsheet where the first column is an id, the second is the label,
     and the third is a sentence from the text files in the directory
     """
+    # gets list of all filenames in the directory that was passed in
     filenames_list = os.listdir(directory)
-    print(filenames_list)
+    # print(filenames_list)
 
     # Workbook is created
     wb = Workbook()
@@ -71,26 +74,29 @@ def make_spreadsheet(directory, label):
     counter += 1;
 
     for i in range (len(filenames_list)):
+        # gets sentences from a specific file in filenames_list
         sentence_list = get_sentences(directory+"/"+filenames_list[i])
         for j in range (len(sentence_list)):
-            # searches unwanted_words list for unwanted words
+            # searches the sentence for unwanted words/phrases
             containsUnwantedWord = bool([word for word in unwanted_words if(word in sentence_list[j])])
+            # only writes sentence to spreadsheet if sentence does NOT contain
+            # any unwanted word or phrase
             if len(sentence_list[j]) > 5 and not containsUnwantedWord:
-                if "javascript" in sentence_list[j]:
-                    print(sentence_list[j])
                 # code for writing to make_spreadsheet: write(row, column, text)
                 sheet1.write(counter, 0, str(counter) + "_"+ str(label))
                 sheet1.write(counter, 1, label)
                 sheet1.write(counter, 2, sentence_list[j])
-                counter += 1
+                counter += 1 # increased by one with every line written to sheet
 
     # save and close spreadsheet
     wb.save(directory+'-data.xls')
 
 
 def mergeSpreadsheets(spreadsheet1, spreadsheet2, title):
-    """Takes 2 spreadsheets and puts them togeteher"""
-    # Read all three files into pandas dataframes
+    """
+    Takes 2 spreadsheets and puts them together and then shuffles the rows
+    """
+    # read two excel files into pandas dataframes
     wb1 = pd.read_excel(spreadsheet1)
     wb2 = pd.read_excel(spreadsheet2)
 
@@ -98,12 +104,16 @@ def mergeSpreadsheets(spreadsheet1, spreadsheet2, title):
     all_df_list = [wb1, wb2]
 
     # Merge all the dataframes in all_df_list
-    # Pandas will automatically append based on similar column names
+    # Pandas will automatically append based on similar column names, so make
+    # sure to name the columns the same thing in both sheets
     appended_df = pd.concat(all_df_list)
 
-    # Write the appended dataframe to an excel file
+    # shuffles rows of dataframe
+    appended_df_shuffled = appended_df.sample(frac=1)
+
+    # Write the appended shuffled dataframe to an excel file
     # Add index=False parameter to not include row numbers
-    appended_df.to_excel(title+".xls", index=False)
+    appended_df_shuffled.to_excel(title+".xls", index=False)
 
 
 
@@ -111,6 +121,7 @@ def mergeSpreadsheets(spreadsheet1, spreadsheet2, title):
 # Run this code when called from the command line
 if __name__ == "__main__":
     import doctest
+
     make_spreadsheet("pro-recovery", 0)
     make_spreadsheet("pro-ana", 1)
     mergeSpreadsheets("pro-recovery-data.xls", "pro-ana-data.xls", "data")
