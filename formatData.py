@@ -7,6 +7,21 @@ import re
 import os
 import pandas as pd
 
+unwanted_words = [
+    "javascript",
+    "google",
+    "src",
+    "cookies",
+    "log in",
+    "copyright",
+    "notify me of",
+    "you are commenting using",
+    "your comment here",
+    "twitterfacebook",
+    "save my name, email, and website in this browser for the next time i comment",
+    "by continuing to use this website",
+    "nofity me of new",
+    "wordpress"]
 
 def get_sentences(filename):
     """
@@ -58,8 +73,11 @@ def make_spreadsheet(directory, label):
     for i in range (len(filenames_list)):
         sentence_list = get_sentences(directory+"/"+filenames_list[i])
         for j in range (len(sentence_list)):
-            if len(sentence_list[j]) > 5:
-                # print(len(sentence_list[j]))
+            # searches unwanted_words list for unwanted words
+            containsUnwantedWord = bool([word for word in unwanted_words if(word in sentence_list[j])])
+            if len(sentence_list[j]) > 5 and not containsUnwantedWord:
+                if "javascript" in sentence_list[j]:
+                    print(sentence_list[j])
                 # code for writing to make_spreadsheet: write(row, column, text)
                 sheet1.write(counter, 0, str(counter) + "_"+ str(label))
                 sheet1.write(counter, 1, label)
@@ -72,16 +90,6 @@ def make_spreadsheet(directory, label):
 
 def mergeSpreadsheets(spreadsheet1, spreadsheet2, title):
     """Takes 2 spreadsheets and puts them togeteher"""
-    # Workbook is created
-    # wbboth = Workbook()
-    # add_sheet is used to create sheet.
-    # sheet1 = wbboth.add_sheet('Sheet 1')
-
-    # open two existing spreadsheets
-    # wb1 = xlrd.open_workbook(spreadsheet1)
-    # wb2 = xlrd.open_workbook(spreadsheet2)
-
-
     # Read all three files into pandas dataframes
     wb1 = pd.read_excel(spreadsheet1)
     wb2 = pd.read_excel(spreadsheet2)
@@ -97,11 +105,6 @@ def mergeSpreadsheets(spreadsheet1, spreadsheet2, title):
     # Add index=False parameter to not include row numbers
     appended_df.to_excel(title+".xls", index=False)
 
-
-
-
-    # save and close spreadsheet
-    # wb.save(title+'.xls')
 
 
 
