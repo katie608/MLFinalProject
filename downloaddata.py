@@ -28,15 +28,46 @@ pro_ana_url_list = [
 "https://theproanatips.com/",
 "https://theproanatips.com/about-me/",
 "https://theproanatips.com/blog/",
-"https://theproanatips.com/disclaimer/"
+"https://theproanatips.com/disclaimer/",
+"https://www.crazyfigure.com/abc-diet-plan/",
+"https://www.crazyfigure.com/pro-ana-tips-tricks/",
+"https://myproanatips.com/",
+"https://myproanatips.com/pro-ana-fasting-tips-for-beginners/",
+"https://myproanatips.com/anorexic-diet-plan/",
+"https://myproanatips.com/pro-ana-tips-to-avoid-eating-29-simple-tips/",
+"https://myproanatips.com/pro-mia-tips-bingeing-and-purging/",
+"https://myproanatips.com/pro-ana-diet-7-different-pro-ana-diet-plans/",
+"https://starvinganasisters.wordpress.com/",
+"https://anasanctuary.wordpress.com/links/",
+"https://anasanctuary.wordpress.com/",
+"https://anasanctuary.wordpress.com/tricks-of-the-trade/",
+"https://www.myproana.com/index.php/topic/3893549-weight-today-how-do-you-feel-about-it/",
+"https://www.myproana.com/index.php/topic/3893457-alright-people-going-to-the-grocery-store-today-what-do-i-buy/"
 ]
 
 pro_recovery_url_list = [
 "https://tinybuddha.com/blog/how-i-healed-from-an-eating-disorder-and-stopped-hating-myself-and-my-body/",
-"https://www.psychologytoday.com/us/blog/hunger-artist/201808/the-six-seductions-anorexia"
+"https://www.psychologytoday.com/us/blog/hunger-artist/201808/the-six-seductions-anorexia",
+"https://www.reddit.com/r/fuckeatingdisorders/",
+"https://www.reddit.com/r/EatingDisorders/",
+"https://www.beateatingdisorders.org.uk/your-stories/recovery/progress-not-perfection",
+"https://www.nationaleatingdisorders.org/stages-recovery",
+"https://www.waldeneatingdisorders.com/blog/7-secrets-to-eating-disorder-recovery/",
+"https://www.helpguide.org/articles/eating-disorders/eating-disorder-treatment-and-recovery.htm",
+"https://www.verywellmind.com/things-to-stop-if-you-have-an-eating-disorder-1138275",
+"https://www.self.com/story/eating-disorder-definition-recovery",
+"https://www.eatingdisorderhope.com/recovery/self-help-tools-skills-tips",
+"https://www.eat-26.com/eat-26/",
+"https://www.nedc.com.au/eating-disorders/treatment-and-recovery/treatment/treatment-options/",
+"https://www.beateatingdisorders.org.uk/your-stories/recovery/i-love-myself-more-than-i-ever-did",
+"https://www.beateatingdisorders.org.uk/your-stories/recovery/travelling-overseas-eating-disorder",
+"https://www.transfolxfightingeds.org/about",
+"https://emilyprogram.com/blog/how-do-i-develop-a-positive-body-image/",
+"https://emilyprogram.com/blog/eating-disorders-in-older-adults/",
+"https://www.healthyplace.com/blogs/survivinged/2019/10/eating-disorder-stigma-eating-disorders-are-for-the-vain",
+"https://www.healthyplace.com/blogs/survivinged/2019/10/the-risk-of-eating-disorders-in-college-students"
 ]
 
-url_list = pro_ana_url_list
 
 """DOWNLOADING AND FORMATTING"""
 
@@ -59,12 +90,12 @@ class Text:
 
         # First see if file is already in local file cache
         if self.is_cached():
-            print("INFO: {url!r} found in local file cache, reading".format(url=self.url))
+            # print("INFO: {url!r} found in local file cache, reading".format(url=self.url))
             self.read_cache()
 
         # If not found, download (and write to local file cache)
         else:
-            print("INFO: {url!r} not found in local file cache, downloading".format(url=self.url))
+            # print("INFO: {url!r} not found in local file cache, downloading".format(url=self.url))
             self.download()
             self.write_cache()
 
@@ -78,10 +109,6 @@ class Text:
     def download(self):
         """Download URL and save to .text attribute"""
         self.text = requests.get(self.url).text     # TODO: Exception handling
-        # Wait 2 seconds to avoid stressing data source and rate-limiting
-        # You don't need to do this here (only has to happen between requests),
-        # but you should have it somewhere in your code
-        time.sleep(2)
 
     def write_cache(self):
         """Save current .text attribute to text cache"""
@@ -123,7 +150,6 @@ def get_extracted_text(url):
     # #     fout.write(line.text)
     # fout.close()
 
-
     # kill all script and style elements
     for script in soup(["script", "style"]):
         script.extract()    # rip it out
@@ -142,40 +168,16 @@ def get_extracted_text(url):
     fout.close()
 
 
-
-
-
-
-
-
 def get_all_texts(list):
     """Takes in a list of URLs and rus get_extracted_text for each of them
     Not a fruitful function so no doctests possible
     """
     i = 0
-    for url in url_list:
-        get_extracted_text(url_list[i])
+    for url in list:
+        get_extracted_text(list[i])
         i+=1
+        # Wait 2 seconds to avoid stressing data source and rate-limiting
         time.sleep(2)
-
-
-"""ANALYSIS"""
-def get_lines(filename):
-    """
-    Read all lines from `filename` and return a list of strings,
-    one per line, with whitespace stripped from the ends.
-    >>> lines_list = get_lines("doctestText.txt")
-    doctestText.txt
-    >>> print(lines_list[0:2])
-    ['Tomorrow, and tomorrow, and tomorrow,', 'Creeps in this petty pace from day to day,']
-    """
-    print(filename)
-    lines = []
-    with open(filename) as fp:
-        for line in fp:
-            processed_line = line.strip()
-            lines.append(processed_line)
-    return lines
 
 
 
@@ -185,7 +187,7 @@ if __name__ == "__main__":
     import doctest
 
     # Uncomment this when you want to download all text from url list
-    get_all_texts(url_list)
+    get_all_texts(pro_ana_url_list )
 
 
     # Run all doctests in this file
