@@ -12,37 +12,13 @@ import pdb
 import urllib.request
 from bs4 import BeautifulSoup
 
-
+# I have them in a google doc, I just did not want to put them all in one place
+# on my github, publically availible online, because that would be irresponsible
+# If you happen to be someone reading this that I don't know, and you want them
+# for your own research, just email me at katief650@gmail.com with ~2 sentences
+# about who you are and what kind of research you are doing
 pro_ana_url_list = [
-"https://proanagoddess.wordpress.com/ana-lifestyle-religion-2/",
-"https://proanagoddess.wordpress.com/hello-beautiful-%e2%9d%a4%ef%b8%8f/",
-"https://proanagoddess.wordpress.com/tips-tricks-2/",
-"https://proanagoddess.wordpress.com/diets/",
-"https://proanagoddess.wordpress.com/workouts/",
-"https://proanagoddess.wordpress.com/thinspiration/",
-"http://tilt214.tripod.com/index.html",
-"http://tilt214.tripod.com/id7.html",
-"http://tilt214.tripod.com/id8.html",
-"http://tilt214.tripod.com/id31.html",
-"http://tilt214.tripod.com/id30.html",
-"https://theproanatips.com/",
-"https://theproanatips.com/about-me/",
-"https://theproanatips.com/blog/",
-"https://theproanatips.com/disclaimer/",
-"https://www.crazyfigure.com/abc-diet-plan/",
-"https://www.crazyfigure.com/pro-ana-tips-tricks/",
-"https://myproanatips.com/",
-"https://myproanatips.com/pro-ana-fasting-tips-for-beginners/",
-"https://myproanatips.com/anorexic-diet-plan/",
-"https://myproanatips.com/pro-ana-tips-to-avoid-eating-29-simple-tips/",
-"https://myproanatips.com/pro-mia-tips-bingeing-and-purging/",
-"https://myproanatips.com/pro-ana-diet-7-different-pro-ana-diet-plans/",
-"https://starvinganasisters.wordpress.com/",
-"https://anasanctuary.wordpress.com/links/",
-"https://anasanctuary.wordpress.com/",
-"https://anasanctuary.wordpress.com/tricks-of-the-trade/",
-"https://www.myproana.com/index.php/topic/3893549-weight-today-how-do-you-feel-about-it/",
-"https://www.myproana.com/index.php/topic/3893457-alright-people-going-to-the-grocery-store-today-what-do-i-buy/"
+
 ]
 
 pro_recovery_url_list = [
